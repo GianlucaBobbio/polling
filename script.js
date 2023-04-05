@@ -71,7 +71,8 @@ db.collection('ideas').onSnapshot((snapshot) => {
     const buttons = document.createElement('div');
 
     const voteBtn = document.createElement('button');
-    voteBtn.textContent = 'Vote';
+    voteBtn.textContent = '+';
+    voteBtn.style.marginRight = '4px';
     voteBtn.disabled = userVoteCount >= 3;
     voteBtn.addEventListener('click', () =>
       voteIdea(doc.id, doc.data().votes, doc.data().userVotes)
@@ -79,7 +80,7 @@ db.collection('ideas').onSnapshot((snapshot) => {
     buttons.appendChild(voteBtn);
 
     const retrieveVoteBtn = document.createElement('button');
-    retrieveVoteBtn.textContent = 'Retrieve vote';
+    retrieveVoteBtn.textContent = '-';
     retrieveVoteBtn.disabled = userVoteCount === 0;
     retrieveVoteBtn.addEventListener('click', () =>
       retrieveVote(doc.id, doc.data().votes, doc.data().userVotes)
