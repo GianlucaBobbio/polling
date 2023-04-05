@@ -81,7 +81,7 @@ db.collection("ideas").onSnapshot((snapshot) => {
     const removeBtn = document.createElement("button");
     removeBtn.textContent = "Remove";
     removeBtn.addEventListener("click", () => removeIdea(doc.id));
-    li.appendChild(removeBtn);
+    // li.appendChild(removeBtn);
 
     ideasList.appendChild(li);
   });
