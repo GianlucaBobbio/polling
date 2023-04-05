@@ -90,7 +90,7 @@ db.collection('ideas').onSnapshot((snapshot) => {
     removeBtn.textContent = 'Remove';
     removeBtn.addEventListener('click', () => removeIdea(doc.id));
     // li.appendChild(removeBtn);
-    li.appendChild(div);
+    li.appendChild(buttons);
     ideasList.appendChild(li);
   });
 });
