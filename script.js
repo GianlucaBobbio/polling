@@ -37,8 +37,9 @@ function addIdea(idea) {
 
 function voteIdea(id, votes, userVotes) {
   const userVoteCount = userVotes[userId] || 0;
+  const totalUserVotes = getTotalUserVotes(userVotes);
 
-  if (userVoteCount < 3) {
+  if (totalUserVotes < 3) {
     userVotes[userId] = userVoteCount + 1;
     db.collection('ideas')
       .doc(id)
@@ -59,7 +60,14 @@ function retrieveVote(id, votes, userVotes) {
   }
 }
 
+function getTotalUserVotes(userVotes) {
+  return Object.values(userVotes).reduce((total, votes) => total + votes, 0);
+}
+
 db.collection('ideas').onSnapshot((snapshot) => {
+  const allUserVotes = snapshot.docs.map((doc) => doc.data().userVotes);
+  const totalUserVotes = allUserVotes.reduce((total, userVotes) => total + (userVotes[userId] || 0), 0);
+
   ideasList.innerHTML = '';
   snapshot.forEach((doc) => {
     const li = document.createElement('li');
@@ -73,7 +81,7 @@ db.collection('ideas').onSnapshot((snapshot) => {
     const voteBtn = document.createElement('button');
     voteBtn.textContent = '+';
     voteBtn.style.marginRight = '4px';
-    voteBtn.disabled = userVoteCount >= 3;
+    voteBtn.disabled = totalUserVotes >= 3;
     voteBtn.addEventListener('click', () =>
       voteIdea(doc.id, doc.data().votes, doc.data().userVotes)
     );
